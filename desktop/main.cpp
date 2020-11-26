@@ -1,5 +1,4 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "core/Renderer.h"
 #include <stdio.h>
 #include <iostream>
 #include "ShaderLoader.h"
@@ -16,9 +15,13 @@ auto on_frame_size_changed(GLFWwindow* window, int width, int height) -> void {
 
 auto initalize() -> GLuint {
     float vertices[] = {
+        -0.5f, 0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
+        0.0f, -0.5f, 0.0f,
+
+        0.5f, -0.5f, 0.0f,
         0.5f, 0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f
+        -0.5f, 0.5f, 0.0f
     };
 
     GLuint vao = 0;
@@ -132,9 +135,7 @@ int main() {
         glClearColor(.2f, .3f, .3f, .0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(triangleProgram);
-        glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        glBindVertexArray(0);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
