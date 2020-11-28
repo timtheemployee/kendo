@@ -1,7 +1,6 @@
 #include <string>
 #include <filesystem>
-
-namespace desktop {
+#include <vector>
 
 class ShaderLoader
 {
@@ -16,5 +15,3 @@ public:
     auto load_fragment_shader(const std::string &name) const -> std::string;
     auto load_vertex_shader(const std::string &name) const -> std::string;
 };
-
-}

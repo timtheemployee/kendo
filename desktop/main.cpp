@@ -1,7 +1,8 @@
-#include "core/Renderer.h"
+#include <Renderer.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <stdio.h>
 #include <iostream>
-#include "ShaderLoader.h"
 
 auto process_input(GLFWwindow* window) -> void {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -126,20 +127,28 @@ int main() {
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, on_frame_size_changed);
 
-    const auto triangleProgram = program();
-    const auto vao = initalize();
+    auto renderer = Renderer{};
 
+    std::vector<float> vertices = {
+        -0.5f, 0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.0f, -0.5f, 0.0f,
+
+        0.5f, -0.5f, 0.0f,
+        0.5f, 0.5f, 0.0f,
+        -0.5f, 0.5f, 0.0f
+    };
+
+    const auto mesh = Mesh{vertices};
     while(!glfwWindowShouldClose(window)) {
         process_input(window);
-
-        glClearColor(.2f, .3f, .3f, .0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glUseProgram(triangleProgram);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        renderer.prepare();
+        renderer.render(mesh);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+    renderer.clenUp();
 
     glfwTerminate();
     return 0;

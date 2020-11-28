@@ -7,8 +7,6 @@ auto Renderer::prepare() -> void {
 }
 
 auto Renderer::render(const Mesh &mesh) -> void {
-    _meshes.push_back(mesh);
-
     glBindVertexArray(mesh.getAttributeObject());
     glEnableVertexAttribArray(0);
     glDrawArrays(GL_TRIANGLES, 0, mesh.getVerticesSize());

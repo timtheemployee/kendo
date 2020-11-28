@@ -2,8 +2,6 @@
 #include <fstream>
 #include <sstream>
 
-namespace desktop {
-
 ShaderLoader::ShaderLoader(const std::filesystem::path &root_path): _root_path{root_path}{}
 
 auto ShaderLoader::load_vertex_shader(const std::string &name) const -> std::string
@@ -31,6 +29,4 @@ auto ShaderLoader::load_shader(const std::filesystem::path &name) const -> std::
     content << file.rdbuf();
 
     return content.str();
-}
-
 }
