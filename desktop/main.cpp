@@ -47,22 +47,23 @@ int main() {
     auto renderer = Renderer{""};
     renderer.attach_shader("base");
 
-    std::vector<float> vertices = {
+    std::vector<float> square = {
         -0.5f, 0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
-        0.0f, -0.5f, 0.0f,
-
         0.5f, -0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f,
-        -0.5f, 0.5f, 0.0f
+        0.5f, 0.5f, 0.0f
     };
 
-    const auto mesh = Mesh{vertices};
+    std::vector<int> indecies = {
+        0, 1, 3, 3, 1, 2
+    };
+
+    const auto square_mesh = Mesh{square, indecies};
 
     while(!glfwWindowShouldClose(window)) {
         process_input(window);
         renderer.prepare();
-        renderer.render(mesh);
+        renderer.render(square_mesh);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

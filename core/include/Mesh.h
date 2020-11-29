@@ -10,10 +10,13 @@ private:
     int _verticesSize;
 
 public:
-
-   Mesh(const std::vector<float> &vertices);
+   Mesh(const std::vector<float> &vertices, const std::vector<int> &indecies);
+   //TODO snake case
    auto getAttributeObject() const -> GLuint;
+   //TODO snake case
    auto getVerticesSize() const -> int;
+   //TODO snake case
    auto clenUp() -> void;
+   auto indecies_supported() const -> bool;
 };
 

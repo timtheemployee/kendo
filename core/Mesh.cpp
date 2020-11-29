@@ -1,20 +1,25 @@
 #include "Mesh.h"
 
-Mesh::Mesh(const std::vector<float> &vertices) {
-    _verticesSize = vertices.size();
+Mesh::Mesh(const std::vector<float> &vertices, const std::vector<int> &indecies) {
+    _verticesSize = indecies.size();
 
     glGenVertexArrays(1, &_vertexAttributeObject);
     glBindVertexArray(_vertexAttributeObject);
 
-    GLuint buffer;
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    GLuint elementBuffer;
+    glGenBuffers(1, &elementBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indecies.size() * sizeof(int), indecies.data(), GL_STATIC_DRAW);
+
+    GLuint vertexBuffer;
+    glGenBuffers(1, &vertexBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    glDeleteBuffers(1, &buffer);
+    glDeleteBuffers(1, &elementBuffer);
+    glDeleteBuffers(1, &vertexBuffer);
 }
 
 auto Mesh::getVerticesSize() const -> int {
