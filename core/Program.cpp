@@ -1,33 +1,31 @@
 #include "Program.h"
 
-Program::Program(const std::filesystem::path &shaders_root) : _loader{shaders_root}, _program{0} {
+Program::Program(const std::filesystem::path &shaders_root, const std::string &name) : _loader{shaders_root} {
+    _program = create(name);
 }
 
-auto Program::create(const std::string &shader) -> void {
+auto Program::create(const std::string &shader) -> GLuint {
     const auto vertex = _loader.load_vertex_shader(shader);
     const auto fragment = _loader.load_fragment_shader(shader);
 
-    const auto vertex_shader_id = this->shader(vertex, GL_VERTEX_SHADER);
-    const auto fragment_shader_id = this->shader(fragment, GL_FRAGMENT_SHADER);
+    _vertex_shader_id = this->shader(vertex, GL_VERTEX_SHADER);
+    _fragment_shader_id = this->shader(fragment, GL_FRAGMENT_SHADER);
 
-    _program = glCreateProgram();
-    glAttachShader(_program, vertex_shader_id);
-    glAttachShader(_program, fragment_shader_id);
+    GLuint _program = glCreateProgram();
+    glAttachShader(_program, _vertex_shader_id);
+    glAttachShader(_program, _fragment_shader_id);
     glLinkProgram(_program);
 
     int linkingStatus;
     glGetProgramiv(_program, GL_LINK_STATUS, &linkingStatus);
 
     if (linkingStatus == GL_FALSE) {
-        glDeleteShader(vertex_shader_id);
-        glDeleteShader(fragment_shader_id);
-        glDeleteProgram(_program);
+        clean_up();
         const auto message = "Error while linking program";
         throw std::invalid_argument(message);
     }
 
-    glDeleteShader(vertex_shader_id);
-    glDeleteShader(fragment_shader_id);
+    return _program;
 }
 
 auto Program::shader(const std::string &source, GLuint type) const -> GLuint {
@@ -57,10 +55,22 @@ auto Program::get_shader_type(const GLuint type) const -> std::string {
     throw std::invalid_argument("Illegal shader type");
 }
 
-auto Program::use() -> void {
+auto Program::bind_attribute(const GLuint &position, const std::string &attribute_name) -> void {
+    glBindAttribLocation(_program, position, attribute_name.c_str());
+}
+
+auto Program::use() const -> void {
     glUseProgram(_program);
 }
 
+auto Program::dispose() const -> void {
+    glUseProgram(0);
+}
+
 auto Program::clean_up() -> void {
+    glDetachShader(_program, _vertex_shader_id);
+    glDetachShader(_program, _fragment_shader_id);
+    glDeleteShader(_vertex_shader_id);
+    glDeleteShader(_fragment_shader_id);
     glDeleteProgram(_program);
 }

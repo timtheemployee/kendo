@@ -44,8 +44,9 @@ int main() {
 
     glfwSetFramebufferSizeCallback(window, on_frame_size_changed);
 
-    auto renderer = Renderer{""};
-    renderer.attach_shader("base");
+    auto renderer = Renderer{};
+    auto program = Program{"", "base"};
+    program.bind_attribute(0, "position");
 
     std::vector<float> square = {
         -0.5f, 0.5f, 0.0f,
@@ -63,13 +64,15 @@ int main() {
     while(!glfwWindowShouldClose(window)) {
         process_input(window);
         renderer.prepare();
+        renderer.use(program);
         renderer.render(square_mesh);
+        renderer.dismiss(program);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    renderer.clean_up();
+    program.dispose();
 
     glfwTerminate();
     return 0;
