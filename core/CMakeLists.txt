@@ -6,6 +6,7 @@ add_library(${PROJECT_NAME}
     Mesh.cpp
     Renderer.cpp
     ShaderLoader.cpp
+    Program.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

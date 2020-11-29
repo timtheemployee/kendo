@@ -1,14 +1,14 @@
 #include "Mesh.h"
-#include "ShaderLoader.h"
+#include "Program.h"
 
 class Renderer
 {
 private:
-    ShaderLoader loader;
+    Program _program;
 
 public:
-    Renderer();
-    auto attach_shader(const std::string name) -> void;
+    Renderer(const std::string &shaders_root);
+    auto attach_shader(const std::string &name) -> void;
     auto prepare() -> void;
     auto render(const Mesh &mesh) -> void;
     auto clean_up() -> void;

@@ -1,6 +1,7 @@
 #include "ShaderLoader.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <stdexcept>
 
 class Program {
 private:
@@ -14,4 +15,5 @@ public:
     Program(const std::filesystem::path &shaders_root);
     auto create(const std::string &shader) -> void;
     auto use() -> void;
+    auto clean_up() -> void;
 };
