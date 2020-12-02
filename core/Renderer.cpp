@@ -14,6 +14,7 @@ auto Renderer::use(const Program &program) -> void {
 auto Renderer::render(const Mesh &mesh) -> void {
     glBindVertexArray(mesh.getAttributeObject());
     glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
     glDrawElements(GL_TRIANGLES, mesh.getVerticesSize(), GL_UNSIGNED_INT, 0);
     glDisableVertexAttribArray(0);
     glBindVertexArray(0);

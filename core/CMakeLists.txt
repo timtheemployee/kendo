@@ -7,11 +7,15 @@ add_library(${PROJECT_NAME}
     Renderer.cpp
     ShaderLoader.cpp
     Program.cpp
+    TextureLoader.cpp
+    Texture.cpp
+    TextureData.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE glfw
     PRIVATE libglew_static
+    PRIVATE stb
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)

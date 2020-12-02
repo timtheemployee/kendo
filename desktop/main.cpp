@@ -1,4 +1,5 @@
 #include <Renderer.h>
+#include <TextureLoader.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -45,8 +46,14 @@ int main() {
     glfwSetFramebufferSizeCallback(window, on_frame_size_changed);
 
     auto renderer = Renderer{};
+    std::cout << "renderer created" << std::endl;
+    auto texture_loader = TextureLoader{};
+    std::cout << "texture loader initialized" << std::endl;
+    auto wall_texture = texture_loader.get_texture("wall.jpg");
+    std::cout << "wall texture loaded" << std::endl;
+
     auto program = Program{"", "base"};
-    program.bind_attribute(0, "position");
+    std::cout << "Shaders initialized" << std::endl;
 
     std::vector<float> square = {
         -0.5f, 0.5f, 0.0f,
@@ -59,14 +66,26 @@ int main() {
         0, 1, 3, 3, 1, 2
     };
 
-    const auto square_mesh = Mesh{square, indecies};
+    std::vector<float> uv = {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
+    };
+
+    const auto vertex_data = VertexData{square, uv, indecies};
+    std::cout << "vertex data created" << std::endl;
+    const auto square_mesh = Mesh{vertex_data};
+    std::cout << "mesh created" << std::endl;
 
     while(!glfwWindowShouldClose(window)) {
         process_input(window);
+        wall_texture.bind();
         renderer.prepare();
         renderer.use(program);
         renderer.render(square_mesh);
         renderer.dismiss(program);
+        wall_texture.unbind();
 
         glfwSwapBuffers(window);
         glfwPollEvents();

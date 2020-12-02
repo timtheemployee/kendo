@@ -6,3 +6,4 @@ set(glew-cmake_BUILD_MULTI_CONTEXT OFF)
 add_subdirectory(glew)
 
 add_subdirectory(glfw)
+add_subdirectory(stb)
