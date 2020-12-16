@@ -1,5 +1,8 @@
 #include <Renderer.h>
+#include <VertexArray.h>
+#include <VertexBufferLayout.h>
 #include <TextureLoader.h>
+#include <Shader.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -47,37 +50,42 @@ int main() {
 
     auto renderer = Renderer{};
     auto texture_loader = TextureLoader{};
-    auto wall_texture = texture_loader.get_texture("wall.jpg");
-    auto program = Program{"", "base"};
+    auto shader = Shader{"", "base"};
 
     std::vector<float> square = {
-        -0.5f, 0.5f, 0.0f, 0.0f, 0.0f,
-        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-        0.5f, -0.5f, 0.0f, 1.0f, 1.0f,
-        0.5f, 0.5f, 0.0f, 0.0f, 1.0f
+        -0.5f, 0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f,
+        0.5f, 0.5f, 0.0f
     };
+
 
     std::vector<int> indecies = {
         0, 1, 3, 3, 1, 2
     };
 
-    const auto vertex_data = VertexData{square, indecies};
-    const auto square_mesh = Mesh{vertex_data};
+    auto indexBuffer = IndexBuffer{indecies};
+    auto vertexArray = VertexArray{};
+    auto vertexBuffer = VertexBuffer{square};
+    auto layout = VertexBufferLayout{};
+    layout.floats(3);
+
+    vertexArray.addBuffer(vertexBuffer, layout);
+
+    auto indeciesBuffer = IndexBuffer{indecies};
 
     while(!glfwWindowShouldClose(window)) {
         process_input(window);
-        wall_texture.bind();
-        renderer.prepare();
-        renderer.use(program);
-        renderer.render(square_mesh);
-        renderer.dismiss(program);
-        wall_texture.unbind();
+        renderer.clear();
 
+        shader.bind();
+        shader.setUniform1f("time", glfwGetTime());
+        shader.unbind();
+
+        renderer.draw(vertexArray, indexBuffer, shader);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
-    program.dispose();
 
     glfwTerminate();
     return 0;

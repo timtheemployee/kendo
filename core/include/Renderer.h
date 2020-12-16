@@ -1,13 +1,15 @@
-#include "Mesh.h"
-#include "Program.h"
 #include "GlExtensions.h"
+#include "VertexArray.h"
+#include "IndexBuffer.h"
+#include "Shader.h"
+#include <GL/glew.h>
 
 class Renderer
 {
 public:
     Renderer();
-    auto prepare() -> void;
-    auto use(const Program &program) -> void;
-    auto render(const Mesh &mesh) -> void;
-    auto dismiss(const Program &program) -> void;
+    auto clear() const -> void;
+    auto draw(const VertexArray &vertexArray,
+              const IndexBuffer &buffer,
+              const Shader &shader) const -> void;
 };

@@ -3,13 +3,16 @@ cmake_minimum_required(VERSION 3.17.0)
 project(core)
 
 add_library(${PROJECT_NAME}
-    Mesh.cpp
     Renderer.cpp
     ShaderLoader.cpp
-    Program.cpp
     TextureLoader.cpp
     Texture.cpp
     TextureData.cpp
+    VertexBuffer.cpp
+    IndexBuffer.cpp
+    VertexBufferLayout.cpp
+    VertexArray.cpp
+    Shader.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}
