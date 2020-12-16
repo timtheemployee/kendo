@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include "Program.h"
+#include "GlExtensions.h"
 
 class Renderer
 {

@@ -13,6 +13,7 @@ add_library(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
+    PRIVATE glm
     PRIVATE glfw
     PRIVATE libglew_static
     PRIVATE stb

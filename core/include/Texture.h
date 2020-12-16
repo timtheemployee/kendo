@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include "data/TextureData.h"
+#include "GlExtensions.h"
 #include <stdexcept>
 
 class Texture {

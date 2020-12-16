@@ -12,12 +12,12 @@ auto Program::create(const std::string &shader) -> GLuint {
     _fragment_shader_id = this->shader(fragment, GL_FRAGMENT_SHADER);
 
     GLuint _program = glCreateProgram();
-    glAttachShader(_program, _vertex_shader_id);
-    glAttachShader(_program, _fragment_shader_id);
-    glLinkProgram(_program);
+    GL_CALL(glAttachShader(_program, _vertex_shader_id));
+    GL_CALL(glAttachShader(_program, _fragment_shader_id));
+    GL_CALL(glLinkProgram(_program));
 
     int linkingStatus;
-    glGetProgramiv(_program, GL_LINK_STATUS, &linkingStatus);
+    GL_CALL(glGetProgramiv(_program, GL_LINK_STATUS, &linkingStatus));
 
     if (linkingStatus == GL_FALSE) {
         clean_up();
@@ -31,17 +31,17 @@ auto Program::create(const std::string &shader) -> GLuint {
 auto Program::shader(const std::string &source, GLuint type) const -> GLuint {
     const auto shader = glCreateShader(type);
     const auto *raw = source.c_str();
-    glShaderSource(shader, 1, &raw, nullptr);
-    glCompileShader(shader);
+    GL_CALL(glShaderSource(shader, 1, &raw, nullptr));
+    GL_CALL(glCompileShader(shader));
 
     int compileResult;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &compileResult);
+    GL_CALL(glGetShaderiv(shader, GL_COMPILE_STATUS, &compileResult));
 
     if (compileResult == GL_FALSE) {
         const auto message = "Error while compiling " + get_shader_type(type) + " ";
 
         char infoLog[512];
-        glGetShaderInfoLog(shader, 512, nullptr, infoLog);
+        GL_CALL(glGetShaderInfoLog(shader, 512, nullptr, infoLog));
         throw std::invalid_argument(message + infoLog);
     }
 
@@ -56,21 +56,21 @@ auto Program::get_shader_type(const GLuint type) const -> std::string {
 }
 
 auto Program::bind_attribute(const GLuint &position, const std::string &attribute_name) -> void {
-    glBindAttribLocation(_program, position, attribute_name.c_str());
+    GL_CALL(glBindAttribLocation(_program, position, attribute_name.c_str()));
 }
 
 auto Program::use() const -> void {
-    glUseProgram(_program);
+    GL_CALL(glUseProgram(_program));
 }
 
 auto Program::dispose() const -> void {
-    glUseProgram(0);
+    GL_CALL(glUseProgram(0));
 }
 
 auto Program::clean_up() -> void {
-    glDetachShader(_program, _vertex_shader_id);
-    glDetachShader(_program, _fragment_shader_id);
-    glDeleteShader(_vertex_shader_id);
-    glDeleteShader(_fragment_shader_id);
-    glDeleteProgram(_program);
+    GL_CALL(glDetachShader(_program, _vertex_shader_id));
+    GL_CALL(glDetachShader(_program, _fragment_shader_id));
+    GL_CALL(glDeleteShader(_vertex_shader_id));
+    GL_CALL(glDeleteShader(_fragment_shader_id));
+    GL_CALL(glDeleteProgram(_program));
 }

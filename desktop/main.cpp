@@ -46,37 +46,23 @@ int main() {
     glfwSetFramebufferSizeCallback(window, on_frame_size_changed);
 
     auto renderer = Renderer{};
-    std::cout << "renderer created" << std::endl;
     auto texture_loader = TextureLoader{};
-    std::cout << "texture loader initialized" << std::endl;
     auto wall_texture = texture_loader.get_texture("wall.jpg");
-    std::cout << "wall texture loaded" << std::endl;
-
     auto program = Program{"", "base"};
-    std::cout << "Shaders initialized" << std::endl;
 
     std::vector<float> square = {
-        -0.5f, 0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f
+        -0.5f, 0.5f, 0.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 1.0f, 1.0f,
+        0.5f, 0.5f, 0.0f, 0.0f, 1.0f
     };
 
     std::vector<int> indecies = {
         0, 1, 3, 3, 1, 2
     };
 
-    std::vector<float> uv = {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f
-    };
-
-    const auto vertex_data = VertexData{square, uv, indecies};
-    std::cout << "vertex data created" << std::endl;
+    const auto vertex_data = VertexData{square, indecies};
     const auto square_mesh = Mesh{vertex_data};
-    std::cout << "mesh created" << std::endl;
 
     while(!glfwWindowShouldClose(window)) {
         process_input(window);
