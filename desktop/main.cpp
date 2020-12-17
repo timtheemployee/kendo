@@ -48,6 +48,9 @@ int main() {
 
     glfwSetFramebufferSizeCallback(window, on_frame_size_changed);
 
+    GL_CALL(glEnable(GL_BLEND));
+    GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
     auto renderer = Renderer{};
     auto texture_loader = TextureLoader{};
     auto shader = Shader{"", "base"};
@@ -79,8 +82,21 @@ int main() {
     auto textureLoader = TextureLoader{};
     auto texture = textureLoader.get_texture("wall.jpg");
 
+    shader.bind();
+
     texture.bind();
     shader.setUniform1i("image", 0);
+    texture.unbind();
+
+    auto sample = textureLoader.get_texture("sample.png");
+    sample.bind(1);
+    shader.setUniform1i("sampleImage", 1);
+    shader.unbind();
+
+    shader.unbind();
+
+    texture.bind();
+    sample.bind(1);
 
     while(!glfwWindowShouldClose(window)) {
         process_input(window);
@@ -94,6 +110,9 @@ int main() {
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    texture.unbind();
+    sample.unbind();
 
     glfwTerminate();
     return 0;

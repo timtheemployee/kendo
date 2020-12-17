@@ -7,8 +7,12 @@ out vec4 FragColor;
 
 uniform float time;
 uniform sampler2D image;
+uniform sampler2D sampleImage;
 
 void main()
 {
-    FragColor = texture(image, texCoordinatesOut) * vec4(positionOut.x, positionOut.y, 0.5f, 1.f) * sin(time);
+    FragColor = mix(texture(image, texCoordinatesOut),
+                    texture(sampleImage, texCoordinatesOut),
+                    sin(time)) * vec4(positionOut + vec3(sin(time)), 1.f);
+//    FragColor = texture(image, texCoordinatesOut);
 }
