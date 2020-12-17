@@ -7,7 +7,6 @@ add_library(${PROJECT_NAME}
     ShaderLoader.cpp
     TextureLoader.cpp
     Texture.cpp
-    TextureData.cpp
     VertexBuffer.cpp
     IndexBuffer.cpp
     VertexBufferLayout.cpp

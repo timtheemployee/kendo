@@ -58,6 +58,11 @@ auto Shader::setUniform1f(const std::string &name, float v0) const -> void {
     GL_CALL(glUniform1f(location, v0));
 }
 
+auto Shader::setUniform1i(const std::string &name, int v0) const -> void {
+    auto location = getUniformLocation(name);
+    GL_CALL(glUniform1i(location, v0));
+}
+
 auto Shader::getUniformLocation(const std::string &name) const -> GLuint {
     if (_uniformCache.find(name) != _uniformCache.end()) return _uniformCache[name];
 

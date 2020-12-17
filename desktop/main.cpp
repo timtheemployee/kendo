@@ -53,10 +53,10 @@ int main() {
     auto shader = Shader{"", "base"};
 
     std::vector<float> square = {
-        -0.5f, 0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.5f, 0.5f, 0.0f
+        -0.5f, 0.5f, 0.0f,   0.0f,  1.0f,
+        -0.5f, -0.5f, 0.0f,  0.0f,  0.0f,
+        0.5f, -0.5f, 0.0f,   1.0f,  0.0f,
+        0.5f, 0.5f, 0.0f,    1.0f,  1.0f
     };
 
 
@@ -65,14 +65,22 @@ int main() {
     };
 
     auto indexBuffer = IndexBuffer{indecies};
+
     auto vertexArray = VertexArray{};
+
     auto vertexBuffer = VertexBuffer{square};
+
     auto layout = VertexBufferLayout{};
     layout.floats(3);
+    layout.floats(2);
 
     vertexArray.addBuffer(vertexBuffer, layout);
 
-    auto indeciesBuffer = IndexBuffer{indecies};
+    auto textureLoader = TextureLoader{};
+    auto texture = textureLoader.get_texture("wall.jpg");
+
+    texture.bind();
+    shader.setUniform1i("image", 0);
 
     while(!glfwWindowShouldClose(window)) {
         process_input(window);

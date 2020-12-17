@@ -11,7 +11,6 @@ auto TextureLoader::get_texture(const std::filesystem::path &name) const -> Text
 
     int width, height, color_channels;
     auto *data = stbi_load(name.string().c_str(), &width, &height, &color_channels, 4);
-    auto texture_data = TextureData{width, height, data};
 
-    return Texture{texture_data};
+    return Texture{width, height, data};
 }
