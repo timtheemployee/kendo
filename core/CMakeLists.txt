@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME}
     VertexBufferLayout.cpp
     VertexArray.cpp
     Shader.cpp
+    Entity.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

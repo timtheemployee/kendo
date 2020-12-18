@@ -11,6 +11,7 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE glfw
     PRIVATE libglew_static
     PRIVATE stb
+    PRIVATE glm
 )
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic)

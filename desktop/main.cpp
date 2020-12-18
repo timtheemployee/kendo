@@ -3,6 +3,7 @@
 #include <VertexBufferLayout.h>
 #include <TextureLoader.h>
 #include <Shader.h>
+#include <Entity.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -83,7 +84,6 @@ int main() {
     auto texture = textureLoader.get_texture("wall.jpg");
 
     shader.bind();
-
     texture.bind();
     shader.setUniform1i("image", 0);
     texture.unbind();
@@ -92,21 +92,29 @@ int main() {
     sample.bind(1);
     shader.setUniform1i("sampleImage", 1);
     shader.unbind();
-
     shader.unbind();
 
     texture.bind();
     sample.bind(1);
 
+    auto entity = Entity{vertexArray, indexBuffer};
+    entity.translate(-1.f, 0.f, 0.f);
+
+    auto secondEntity = Entity{vertexArray, indexBuffer};
+    secondEntity.translate(0.f, 0.f, 0.f);
+    secondEntity.scale(.5f);
+
     while(!glfwWindowShouldClose(window)) {
+        entity.translate(0.0001f, 0.f, 0.f);
+        secondEntity.translate(0.0001f, 0.f, 0.f);
         process_input(window);
         renderer.clear();
-
         shader.bind();
         shader.setUniform1f("time", glfwGetTime());
         shader.unbind();
 
-        renderer.draw(vertexArray, indexBuffer, shader);
+        renderer.draw(entity, shader);
+        renderer.draw(secondEntity, shader);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
