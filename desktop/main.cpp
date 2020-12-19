@@ -106,7 +106,9 @@ int main() {
 
     while(!glfwWindowShouldClose(window)) {
         entity.translate(0.0001f, 0.f, 0.f);
+        entity.rotate(0.f, 0.f, -0.15f);
         secondEntity.translate(0.0001f, 0.f, 0.f);
+        secondEntity.rotate(0.f, 0.f, 0.15f);
         process_input(window);
         renderer.clear();
         shader.bind();

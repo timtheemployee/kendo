@@ -3,27 +3,23 @@
 Entity::Entity(const VertexArray &vertexArray, const IndexBuffer &indexBuffer) :
     _vertexArray{vertexArray},
     _indexBuffer{indexBuffer},
-    _position{0, 0, 0},
-    _rotationX{0}, _rotationY{0}, _rotationZ{0},
-    _scale{1}
+    _model{1}
 {}
 
 Entity::~Entity() {}
 
 auto Entity::translate(float dx, float dy, float dz) const -> void {
-    _position.x += dx;
-    _position.y += dy;
-    _position.z += dz;
+    _model = glm::translate(_model, glm::vec3{dx, dy, dz});
 }
 
 auto Entity::rotate(float dx, float dy, float dz) const -> void {
-    _rotationX += dx;
-    _rotationY += dy;
-    _rotationZ += dz;
+    _model = glm::rotate(_model, glm::radians(dx), {1, 0, 0});
+    _model = glm::rotate(_model, glm::radians(dy), {0, 1, 0});
+    _model = glm::rotate(_model, glm::radians(dz), {0, 0, 1});
 }
 
 auto Entity::scale(float scale) const -> void {
-    _scale = scale;
+    _model = glm::scale(_model, glm::vec3{scale});
 }
 
 auto Entity::getVertexArray() const -> const VertexArray& {
@@ -34,22 +30,6 @@ auto Entity::getIndexBuffer() const -> const IndexBuffer& {
     return _indexBuffer;
 }
 
-auto Entity::getPosition() const -> const glm::vec3& {
-    return _position;
-}
-
-auto Entity::getRotationX() const -> float {
-    return _rotationX;
-}
-
-auto Entity::getRotationY() const -> float {
-    return _rotationY;
-}
-
-auto Entity::getRotationZ() const -> float {
-    return _rotationZ;
-}
-
-auto Entity::getScale() const -> float {
-    return _scale;
+auto Entity::getModel() const -> const glm::mat4& {
+    return _model;
 }

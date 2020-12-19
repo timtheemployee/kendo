@@ -3,15 +3,14 @@
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 class Entity {
 private:
     VertexArray _vertexArray;
     IndexBuffer _indexBuffer;
 
-    mutable glm::vec3 _position;
-    mutable float _rotationX, _rotationY, _rotationZ;
-    mutable float _scale;
+    mutable glm::mat4 _model;
 
 public:
     Entity(const VertexArray &vertexArray, const IndexBuffer &indexBuffer);
@@ -24,9 +23,6 @@ public:
     auto getVertexArray() const -> const VertexArray&;
     auto getIndexBuffer() const -> const IndexBuffer&;
 
-    auto getPosition() const -> const glm::vec3&;
-    auto getRotationX() const -> float;
-    auto getRotationY() const -> float;
-    auto getRotationZ() const -> float;
-    auto getScale() const -> float;
+    auto getModel() const -> const glm::mat4&;
+    auto setModel(const glm::mat4 &model) const -> void;
 };

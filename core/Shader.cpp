@@ -65,7 +65,7 @@ auto Shader::setUniform1i(const std::string &name, int v0) const -> void {
 
 auto Shader::setUniformMat4f(const std::string &name, const glm::mat4 &matrix) const -> void {
     auto location = getUniformLocation(name);
-    GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, &matrix[0][0]));
+    GL_CALL(glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix)));
 }
 
 auto Shader::getUniformLocation(const std::string &name) const -> GLuint {
