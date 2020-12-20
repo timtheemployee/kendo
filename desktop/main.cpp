@@ -4,8 +4,10 @@
 #include <TextureLoader.h>
 #include <Shader.h>
 #include <Entity.h>
+#include <camera/PerspectiveCamera.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include <iostream>
 
 auto process_input(GLFWwindow* window) -> void {
@@ -52,7 +54,9 @@ int main() {
     GL_CALL(glEnable(GL_BLEND));
     GL_CALL(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-    auto renderer = Renderer{};
+
+    auto camera = PerspectiveCamera{(float) width, (float) height};
+    auto renderer = Renderer{camera};
     auto texture_loader = TextureLoader{};
     auto shader = Shader{"", "base"};
 
@@ -98,17 +102,10 @@ int main() {
     sample.bind(1);
 
     auto entity = Entity{vertexArray, indexBuffer};
-    entity.translate(-1.f, 0.f, 0.f);
-
-    auto secondEntity = Entity{vertexArray, indexBuffer};
-    secondEntity.translate(0.f, 0.f, 0.f);
-    secondEntity.scale(.5f);
+//    auto secondEntity = Entity{vertexArray, indexBuffer};
+//    secondEntity.scale(.5f);
 
     while(!glfwWindowShouldClose(window)) {
-        entity.translate(0.0001f, 0.f, 0.f);
-        entity.rotate(0.f, 0.f, -0.15f);
-        secondEntity.translate(0.0001f, 0.f, 0.f);
-        secondEntity.rotate(0.f, 0.f, 0.15f);
         process_input(window);
         renderer.clear();
         shader.bind();
@@ -116,7 +113,7 @@ int main() {
         shader.unbind();
 
         renderer.draw(entity, shader);
-        renderer.draw(secondEntity, shader);
+//        renderer.draw(secondEntity, shader);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

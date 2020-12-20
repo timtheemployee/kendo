@@ -12,7 +12,7 @@ uniform sampler2D sampleImage;
 void main()
 {
     FragColor = mix(texture(image, texCoordinatesOut),
-                    texture(sampleImage, texCoordinatesOut),
-                    sin(time)) * vec4(positionOut + vec3(sin(time)), 1.f);
+                    texture(sampleImage, texCoordinatesOut), 0.5f)
+            * vec4(positionOut + vec3(0.5f, 0.5f, 0.5f), 1.f);
 //    FragColor = texture(image, texCoordinatesOut);
 }
