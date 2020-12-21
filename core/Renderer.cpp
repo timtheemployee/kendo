@@ -1,9 +1,11 @@
 #include "Renderer.h"
 
-Renderer::Renderer(const PerspectiveCamera &camera) : _camera{camera} {}
+Renderer::Renderer(const PerspectiveCamera &camera) : _camera{camera}{
+    GL_CALL(glEnable(GL_DEPTH_TEST));
+}
 
 auto Renderer::clear() const -> void {
-    GL_CALL(glClear(GL_COLOR_BUFFER_BIT));
+    GL_CALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
 auto Renderer::draw(const Entity &entity, const Shader &shader) const -> void {

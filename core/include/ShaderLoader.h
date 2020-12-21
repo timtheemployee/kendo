@@ -8,7 +8,7 @@ class ShaderLoader
 {
 
 private:
-    const std::filesystem::path _root_path;
+    const std::filesystem::path &_root_path;
 
     auto load_shader(const std::filesystem::path &name) const -> std::string;
 

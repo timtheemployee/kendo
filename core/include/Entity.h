@@ -7,8 +7,8 @@
 
 class Entity {
 private:
-    VertexArray _vertexArray;
-    IndexBuffer _indexBuffer;
+    const VertexArray &_vertexArray;
+    const IndexBuffer &_indexBuffer;
 
     mutable glm::mat4 _model;
 

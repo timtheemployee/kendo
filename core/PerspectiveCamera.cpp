@@ -1,17 +1,25 @@
 #include "camera/PerspectiveCamera.h"
 
-PerspectiveCamera::PerspectiveCamera(const float width, const float height) :
-    _projection{glm::mat4{1.f}},
-    _view{glm::mat4{1.f}} {
+#include <iostream>
+#include <glm/gtx/string_cast.hpp>
 
-    _view = glm::translate(_view, {0.f, 0.f, -3.0f});
-    _projection = glm::perspective(glm::radians(45.0f), width / height, 0.1f, 100.0f);
+PerspectiveCamera::PerspectiveCamera(const float width, const float height) :
+    _position{glm::vec3{0.0f, 0.0f, 3.f}},
+    _projection{glm::perspective(glm::radians(45.0f), width / height, 0.1f, 100.f)}
+{}
+
+auto PerspectiveCamera::setPosition(const glm::vec3 &position) const -> void {
+    _position = position;
 }
 
 auto PerspectiveCamera::view() const -> glm::mat4 {
-    return _view;
+    return glm::lookAt(_position, _position + _front, _up);
 }
 
 auto PerspectiveCamera::projection() const -> glm::mat4 {
     return _projection;
+}
+
+auto PerspectiveCamera::position() const -> glm::vec3 {
+    return _position;
 }

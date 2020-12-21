@@ -102,10 +102,15 @@ int main() {
     sample.bind(1);
 
     auto entity = Entity{vertexArray, indexBuffer};
-//    auto secondEntity = Entity{vertexArray, indexBuffer};
-//    secondEntity.scale(.5f);
-
+    auto secondEntity = Entity{vertexArray, indexBuffer};
+    secondEntity.scale(.5f);
+    secondEntity.translate(0.5f, 0.5f, 2.f);
+    const auto radius = 10.f;
     while(!glfwWindowShouldClose(window)) {
+        float cameraX = sin(glfwGetTime()) * radius;
+        float cameraZ = cos(glfwGetTime()) * radius;
+
+        camera.setPosition(glm::vec3{cameraX, 0.f, cameraZ});
         process_input(window);
         renderer.clear();
         shader.bind();
@@ -113,7 +118,7 @@ int main() {
         shader.unbind();
 
         renderer.draw(entity, shader);
-//        renderer.draw(secondEntity, shader);
+        renderer.draw(secondEntity, shader);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

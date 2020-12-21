@@ -11,7 +11,7 @@
 class Renderer
 {
 private:
-    PerspectiveCamera _camera;
+    const PerspectiveCamera &_camera;
 
 public:
     Renderer(const PerspectiveCamera &camera);
