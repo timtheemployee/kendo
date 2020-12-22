@@ -85,16 +85,16 @@ int main() {
     vertexArray.addBuffer(vertexBuffer, layout);
 
     auto textureLoader = TextureLoader{};
-    auto texture = textureLoader.get_texture("wall.jpg");
+    auto texture = textureLoader.getTexture("wall.jpg", "image");
 
     shader.bind();
     texture.bind();
-    shader.setUniform1i("image", 0);
+    shader.setUniform1i(texture.getUniformName(), 0);
     texture.unbind();
 
-    auto sample = textureLoader.get_texture("sample.png");
+    auto sample = textureLoader.getTexture("sample.png", "sampleImage");
     sample.bind(1);
-    shader.setUniform1i("sampleImage", 1);
+    shader.setUniform1i(sample.getUniformName(), 1);
     shader.unbind();
     shader.unbind();
 

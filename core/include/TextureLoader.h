@@ -3,8 +3,8 @@
 #include "Texture.h"
 
 class TextureLoader {
-
+private:
 public:
     TextureLoader();
-    auto get_texture(const std::filesystem::path &path) const -> Texture;
+    auto getTexture(const std::filesystem::path &path, const std::string &uniformName) const -> Texture;
 };

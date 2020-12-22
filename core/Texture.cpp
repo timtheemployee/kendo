@@ -1,6 +1,10 @@
 #include "Texture.h"
 
-Texture::Texture(const int width, const int height, unsigned char *data): _width{width}, _height{height}, _data{data} {
+Texture::Texture(const int width,
+                 const int height,
+                 unsigned char *data,
+                 const std::string &uniformName): _width{width}, _height{height}, _data{data}, _uniformName{uniformName} {
+
     GL_CALL(glGenTextures(1, &_textureId));
     GL_CALL(glBindTexture(GL_TEXTURE_2D, _textureId));
 
@@ -36,4 +40,8 @@ auto Texture::getWidth() const -> int {
 
 auto Texture::getHeight() const -> int {
     return _height;
+}
+
+auto Texture::getUniformName() const -> const std::string& {
+    return _uniformName;
 }

@@ -10,9 +10,10 @@ private:
     int _width;
     int _height;
     unsigned char *_data;
+    const std::string &_uniformName;
 
 public:
-    Texture(const int width, const int height, unsigned char *data);
+    Texture(const int width, const int height, unsigned char *data, const std::string &uniformName);
     ~Texture();
 
     auto bind(const int slot = 0) const -> void;
@@ -20,4 +21,6 @@ public:
 
     auto getWidth() const -> int;
     auto getHeight() const -> int;
+
+    auto getUniformName() const -> const std::string&;
 };
