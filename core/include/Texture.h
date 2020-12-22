@@ -1,3 +1,5 @@
+#pragma once
+
 #include <GL/glew.h>
 #include "GlExtensions.h"
 #include <stdexcept>
@@ -15,6 +17,9 @@ private:
 public:
     Texture(const int width, const int height, unsigned char *data, const std::string &uniformName);
     ~Texture();
+    Texture(Texture &&other) noexcept;
+    Texture(Texture const &other) noexcept;
+    auto operator=(Texture &&other) -> Texture&;
 
     auto bind(const int slot = 0) const -> void;
     auto unbind() const -> void;

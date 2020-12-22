@@ -11,13 +11,13 @@ auto Renderer::clear() const -> void {
 auto Renderer::draw(const Entity &entity, const Shader &shader) const -> void {
     shader.bind();
 
-    /*
-     * auto textures = entity.getTextures();
-     * for (auto i = 0UL; i < textures.size(); i++) {
-     *     const auto texture = textures[i];
-     *     shader.setUniform1i(texture.getUniformName(), i);
-     */
+    const auto& textures = entity.getTextures();
 
+    for (auto i = 0UL; i < textures.size(); i++) {
+        const auto& texture = textures[i];
+        texture.bind(i);
+        shader.setUniform1i(texture.getUniformName(), i);
+    }
 
     entity.getVertexArray().bind();
     entity.getIndexBuffer().bind();
@@ -28,5 +28,9 @@ auto Renderer::draw(const Entity &entity, const Shader &shader) const -> void {
 
     GL_CALL(glDrawElements(GL_TRIANGLES, entity.getIndexBuffer().getCount(), GL_UNSIGNED_INT, nullptr));
 
+    entity.getVertexArray().unbind();
+    entity.getIndexBuffer().unbind();
     shader.unbind();
+
+    GL_CALL(glActiveTexture(GL_TEXTURE0));
 }

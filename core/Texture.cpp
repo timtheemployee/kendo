@@ -25,6 +25,41 @@ Texture::~Texture() {
     GL_CALL(glDeleteTextures(1, &_textureId));
 }
 
+Texture::Texture(Texture &&other) noexcept :
+    _textureId{other._textureId},
+    _width{other._width},
+    _height{other._height},
+    _data{other._data},
+    _uniformName{other._uniformName}{
+    other._textureId = 0;
+    other._width = 0;
+    other._height = 0;
+    other._data = 0;
+}
+
+Texture::Texture(const Texture &other) noexcept :
+    _textureId{other._textureId},
+    _width{other._width},
+    _height{other._height},
+    _data{other._data},
+    _uniformName{other._uniformName}
+{
+}
+
+auto Texture::operator=(Texture &&other) -> Texture& {
+    _textureId = other._textureId;
+    _width = other._width;
+    _height = other._height;
+    _data = other._data;
+
+    other._textureId = 0;
+    other._width = 0;
+    other._height = 0;
+    other._data = 0;
+
+    return *this;
+}
+
 auto Texture::bind(const int slot) const -> void {
     GL_CALL(glActiveTexture(GL_TEXTURE0 + slot));
     GL_CALL(glBindTexture(GL_TEXTURE_2D, _textureId));

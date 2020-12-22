@@ -13,7 +13,6 @@ add_library(${PROJECT_NAME}
     VertexArray.cpp
     Shader.cpp
     Entity.cpp
-    OrthographicCamera.cpp
     PerspectiveCamera.cpp
 )
 

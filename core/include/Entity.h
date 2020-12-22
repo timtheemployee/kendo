@@ -2,6 +2,7 @@
 
 #include "VertexArray.h"
 #include "IndexBuffer.h"
+#include "Texture.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -9,11 +10,12 @@ class Entity {
 private:
     const VertexArray &_vertexArray;
     const IndexBuffer &_indexBuffer;
+    const std::vector<Texture> &_textures;
 
     mutable glm::mat4 _model;
 
 public:
-    Entity(const VertexArray &vertexArray, const IndexBuffer &indexBuffer);
+    Entity(const VertexArray &vertexArray, const IndexBuffer &indexBuffer, const std::vector<Texture> &textures);
     ~Entity();
 
     auto translate(float dx, float dy, float dz) const -> void;
@@ -25,4 +27,6 @@ public:
 
     auto getModel() const -> const glm::mat4&;
     auto setModel(const glm::mat4 &model) const -> void;
+
+    auto getTextures() const -> const std::vector<Texture>&;
 };

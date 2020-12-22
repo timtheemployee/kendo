@@ -1,8 +1,9 @@
 #include "Entity.h"
 
-Entity::Entity(const VertexArray &vertexArray, const IndexBuffer &indexBuffer) :
+Entity::Entity(const VertexArray &vertexArray, const IndexBuffer &indexBuffer, const std::vector<Texture> &textures) :
     _vertexArray{vertexArray},
     _indexBuffer{indexBuffer},
+    _textures{textures},
     _model{1}
 {}
 
@@ -32,4 +33,8 @@ auto Entity::getIndexBuffer() const -> const IndexBuffer& {
 
 auto Entity::getModel() const -> const glm::mat4& {
     return _model;
+}
+
+auto Entity::getTextures() const -> const std::vector<Texture>& {
+    return _textures;
 }

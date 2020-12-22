@@ -87,22 +87,13 @@ int main() {
     auto textureLoader = TextureLoader{};
     auto texture = textureLoader.getTexture("wall.jpg", "image");
 
-    shader.bind();
-    texture.bind();
-    shader.setUniform1i(texture.getUniformName(), 0);
-    texture.unbind();
-
     auto sample = textureLoader.getTexture("sample.png", "sampleImage");
-    sample.bind(1);
-    shader.setUniform1i(sample.getUniformName(), 1);
-    shader.unbind();
-    shader.unbind();
+    auto textures = std::vector<Texture>{};
+    textures.push_back(texture);
+    textures.push_back(sample);
+    auto entity = Entity{vertexArray, indexBuffer, textures};
+    auto secondEntity = Entity{vertexArray, indexBuffer, textures};
 
-    texture.bind();
-    sample.bind(1);
-
-    auto entity = Entity{vertexArray, indexBuffer};
-    auto secondEntity = Entity{vertexArray, indexBuffer};
     secondEntity.scale(.5f);
     secondEntity.translate(0.5f, 0.5f, 2.f);
     const auto radius = 10.f;
