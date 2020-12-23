@@ -18,7 +18,7 @@ private:
 public:
     Entity(const VertexArray &vertexArray,
            const IndexBuffer &indexBuffer,
-           const std::vector<std::shared_ptr<Texture>> &textures);
+           const std::vector<std::shared_ptr<Texture>> &textures = {});
 
     ~Entity();
 
