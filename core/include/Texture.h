@@ -16,10 +16,16 @@ private:
 
 public:
     Texture(const int width, const int height, unsigned char *data, const std::string &uniformName);
+
     ~Texture();
+
+    //resources should not be copied
+    Texture(const Texture &other) = delete;
+    auto operator=(const Texture &other) -> Texture = delete;
+
+    //but resources can be moved
     Texture(Texture &&other) noexcept;
-    Texture(Texture const &other) noexcept;
-    auto operator=(Texture &&other) -> Texture&;
+    auto operator=(Texture &&other) noexcept -> Texture&;
 
     auto bind(const int slot = 0) const -> void;
     auto unbind() const -> void;

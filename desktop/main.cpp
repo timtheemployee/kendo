@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <iostream>
+#include <memory>
 
 auto process_input(GLFWwindow* window) -> void {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -88,9 +89,8 @@ int main() {
     auto texture = textureLoader.getTexture("wall.jpg", "image");
 
     auto sample = textureLoader.getTexture("sample.png", "sampleImage");
-    auto textures = std::vector<Texture>{};
-    textures.push_back(texture);
-    textures.push_back(sample);
+    auto textures = std::vector<std::shared_ptr<Texture>>{texture, sample};
+
     auto entity = Entity{vertexArray, indexBuffer, textures};
     auto secondEntity = Entity{vertexArray, indexBuffer, textures};
 
@@ -114,8 +114,8 @@ int main() {
         glfwPollEvents();
     }
 
-    texture.unbind();
-    sample.unbind();
+    texture->unbind();
+    sample->unbind();
 
     glfwTerminate();
     return 0;

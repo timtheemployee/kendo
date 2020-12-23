@@ -30,33 +30,19 @@ Texture::Texture(Texture &&other) noexcept :
     _width{other._width},
     _height{other._height},
     _data{other._data},
-    _uniformName{other._uniformName}{
-    other._textureId = 0;
-    other._width = 0;
-    other._height = 0;
-    other._data = 0;
-}
-
-Texture::Texture(const Texture &other) noexcept :
-    _textureId{other._textureId},
-    _width{other._width},
-    _height{other._height},
-    _data{other._data},
     _uniformName{other._uniformName}
 {
+    other._textureId = 0;
 }
 
-auto Texture::operator=(Texture &&other) -> Texture& {
+auto Texture::operator=(Texture &&other) noexcept -> Texture& {
+    if (_textureId) GL_CALL(glDeleteTextures(1, &_textureId));
     _textureId = other._textureId;
     _width = other._width;
     _height = other._height;
     _data = other._data;
 
     other._textureId = 0;
-    other._width = 0;
-    other._height = 0;
-    other._data = 0;
-
     return *this;
 }
 

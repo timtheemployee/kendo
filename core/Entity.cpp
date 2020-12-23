@@ -1,6 +1,8 @@
 #include "Entity.h"
 
-Entity::Entity(const VertexArray &vertexArray, const IndexBuffer &indexBuffer, const std::vector<Texture> &textures) :
+Entity::Entity(const VertexArray &vertexArray,
+               const IndexBuffer &indexBuffer,
+               const std::vector<std::shared_ptr<Texture>> &textures) :
     _vertexArray{vertexArray},
     _indexBuffer{indexBuffer},
     _textures{textures},
@@ -35,6 +37,6 @@ auto Entity::getModel() const -> const glm::mat4& {
     return _model;
 }
 
-auto Entity::getTextures() const -> const std::vector<Texture>& {
+auto Entity::getTextures() const -> const std::vector<std::shared_ptr<Texture>>& {
     return _textures;
 }

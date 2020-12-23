@@ -12,11 +12,10 @@ auto Renderer::draw(const Entity &entity, const Shader &shader) const -> void {
     shader.bind();
 
     const auto& textures = entity.getTextures();
-
     for (auto i = 0UL; i < textures.size(); i++) {
         const auto& texture = textures[i];
-        texture.bind(i);
-        shader.setUniform1i(texture.getUniformName(), i);
+        texture->bind(i);
+        shader.setUniform1i(texture->getUniformName(), i);
     }
 
     entity.getVertexArray().bind();
