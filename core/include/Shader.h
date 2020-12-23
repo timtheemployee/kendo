@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "ShaderLoader.h"
+#include "loading/ShaderLoader.h"
 #include "GlExtensions.h"
 
 class Shader {

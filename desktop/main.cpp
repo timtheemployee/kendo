@@ -1,7 +1,7 @@
 #include <Renderer.h>
 #include <VertexArray.h>
 #include <VertexBufferLayout.h>
-#include <TextureLoader.h>
+#include <loading/TextureLoader.h>
 #include <Shader.h>
 #include <Entity.h>
 #include <camera/PerspectiveCamera.h>

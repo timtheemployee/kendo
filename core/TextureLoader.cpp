@@ -1,4 +1,4 @@
-#include "TextureLoader.h"
+#include "loading/TextureLoader.h"
 
 TextureLoader::TextureLoader() {
     stbi_set_flip_vertically_on_load(true);
