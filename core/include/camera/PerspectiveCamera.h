@@ -10,12 +10,19 @@ private:
     constexpr static auto _front = glm::vec3{0.0f, 0.0f, -1.0f};
     mutable glm::vec3 _position;
     glm::mat4 _projection;
+    float _movementSpeed;
 
 public:
     PerspectiveCamera(const float width, const float height);
 
     auto setPosition(const glm::vec3 &position) const -> void;
     auto position() const -> glm::vec3;
+
     auto view() const -> glm::mat4;
     auto projection() const -> glm::mat4;
+
+    auto forward() -> void;
+    auto backward() -> void;
+    auto left() -> void;
+    auto right() -> void;
 };

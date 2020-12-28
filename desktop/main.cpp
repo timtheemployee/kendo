@@ -11,11 +11,7 @@
 #include <iostream>
 #include <memory>
 
-auto process_input(GLFWwindow* window) -> void {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, true);
-    }
-}
+#include "include/WindowHandler.h"
 
 auto on_frame_size_changed(GLFWwindow* window, int width, int height) -> void {
     glViewport(0, 0, width, height);
@@ -37,7 +33,7 @@ int main() {
         glfwTerminate();
         return -1;
     }
-
+    auto windowHelper = WindowHandler{window};
     glfwMakeContextCurrent(window);
 
 #ifdef __APPLE__
@@ -96,13 +92,31 @@ int main() {
 
     secondEntity.scale(.5f);
     secondEntity.translate(0.5f, 0.5f, 2.f);
-    const auto radius = 10.f;
-    while(!glfwWindowShouldClose(window)) {
-        float cameraX = sin(glfwGetTime()) * radius;
-        float cameraZ = cos(glfwGetTime()) * radius;
 
-        camera.setPosition(glm::vec3{cameraX, 0.f, cameraZ});
-        process_input(window);
+    windowHelper.setWindowListener([&camera](GLFWwindow *window) {
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, true);
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+            camera.left();
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+            camera.right();
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+            camera.forward();
+        }
+
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+            camera.backward();
+        }
+    });
+
+    while(!glfwWindowShouldClose(window)) {
+        windowHelper.update();
         renderer.clear();
         shader.bind();
         shader.setUniform1f("time", glfwGetTime());
